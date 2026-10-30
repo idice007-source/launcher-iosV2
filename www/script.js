@@ -44,7 +44,7 @@ let EDIT = false, DRAG = null, G = null, curFolder = null, pickMode = false;
 
 /* ---------- Applis ---------- */
 function demoApps() {
-  const n = ['Téléphone', 'Messages', 'Safari', 'Photos', 'Appareil photo', 'Mail', 'Cartes', 'Météo', 'Musique', 'Notes', 'Horloge', 'Calendrier', 'Réglages', 'Calculatrice', 'Boussole', 'Bourse', 'Santé', 'Wallet', 'Podcasts', 'Livres', 'Fichiers', 'Raccourcis', 'Jeux', 'Vidéo'];
+  const n = ['โทรศัพท์', 'ข้อความ', 'เบราว์เซอร์', 'รูปภาพ', 'กล้องถ่ายรูป', 'อีเมล', 'แผนที่', 'พยากรณ์อากาศ', 'เพลง', 'โน้ต', 'นาฬิกา', 'ปฏิทิน', 'ตั้งค่า', 'เครื่องคิดเลข', 'เข็มทิศ', 'หุ้น', 'สุขภาพ', 'Wallet', 'พอดแคสต์', 'หนังสือ', 'ไฟล์', 'ทางลัด', 'เกม', 'วิดีโอ'];
   return n.map((x, i) => ({ pkg: 'demo.' + i, label: x, cat: (i % 9) - 1, icon: null, hue: (i * 37) % 360 }));
 }
 function iconSrc(a) {
@@ -113,7 +113,7 @@ function removeAll(pkg) {
 }
 function commit() { save(); renderHome(); }
 function toHome(p) { removeAll(p); S.home.push({ t: 'a', p: p }); tidy(); commit(); }
-function toDock(p) { if (S.dock.length >= 4) { toast('Le Dock est plein'); return; } removeAll(p); S.dock.push(p); tidy(); commit(); }
+function toDock(p) { if (S.dock.length >= 4) { toast('Dock เต็มแล้ว'); return; } removeAll(p); S.dock.push(p); tidy(); commit(); }
 function hideApp(p) { removeAll(p); S.hidden.push(p); tidy(); commit(); }
 function dissolve(fid) {
   const i = S.home.findIndex(x => x.t === 'f' && x.id === fid);
@@ -196,7 +196,7 @@ function updDots() {
 function buildWidgets() {
   const w = el('div', 'widgets');
   if (S.set.widgets === 'notes') {
-    const n = el('div', 'wg gl notes', '<b>Notes</b><textarea placeholder="Écris ici…"></textarea>');
+    const n = el('div', 'wg gl notes', '<b>โน้ต</b><textarea placeholder="เขียนที่นี่…"></textarea>');
     const ta = $('textarea', n);
     ta.value = localStorage.getItem(NKEY) || '';
     ta.addEventListener('input', () => localStorage.setItem(NKEY, ta.value));
@@ -210,21 +210,21 @@ function buildWidgets() {
 }
 function updWidgets() {
   const d = new Date();
-  $$('.wgDow').forEach(e => { e.textContent = d.toLocaleDateString('fr-FR', { weekday: 'long' }); });
+  $$('.wgDow').forEach(e => { e.textContent = d.toLocaleDateString('th-TH', { weekday: 'long' }); });
   $$('.wgDay').forEach(e => { e.textContent = d.getDate(); });
-  $$('.wgSub').forEach(e => { e.textContent = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }); });
+  $$('.wgSub').forEach(e => { e.textContent = d.toLocaleDateString('th-TH', { month: 'long', year: 'numeric' }); });
   const p = Math.round(B.level);
   const col = B.charging ? '#34c759' : (B.saver ? '#ffd60a' : (p <= 20 ? '#ff3b30' : '#34c759'));
   $$('.ring').forEach(e => { e.style.strokeDashoffset = 176 * (1 - p / 100); e.style.stroke = col; });
   $$('.wgPct').forEach(e => { e.textContent = p + '%'; });
-  $$('.wgBS').forEach(e => { e.textContent = B.charging ? 'En charge' : (B.saver ? 'Économie d’énergie' : 'Batterie'); });
+  $$('.wgBS').forEach(e => { e.textContent = B.charging ? 'กำลังชาร์จ' : (B.saver ? 'โหมดประหยัดพลังงาน' : 'แบตเตอรี่'); });
 }
 
 /* ---------- Bibliothèque d'apps ---------- */
-const CATS = { 0: 'Jeux', 1: 'Musique', 2: 'Vidéo', 3: 'Photo', 4: 'Social', 5: 'Actualités', 6: 'Cartes', 7: 'Productivité' };
+const CATS = { 0: 'เกม', 1: 'เพลง', 2: 'วิดีโอ', 3: 'ภาพถ่าย', 4: 'โซเชียล', 5: 'ข่าว', 6: 'แผนที่', 7: 'ผลิตภาพ' };
 function buildLibrary() {
   const pg = el('div', 'page lib');
-  pg.innerHTML = '<div class="gl libSearch"><span>🔍</span><input class="libIn" placeholder="Bibliothèque d’apps" autocomplete="off"></div><div class="libBody"></div>';
+  pg.innerHTML = '<div class="gl libSearch"><span>🔍</span><input class="libIn" placeholder="คลังแอป" autocomplete="off"></div><div class="libBody"></div>';
   const body = $('.libBody', pg);
   const draw = q => {
     body.innerHTML = '';
@@ -236,8 +236,8 @@ function buildLibrary() {
       return;
     }
     const groups = {};
-    APPS.forEach(a => { const k = CATS[a.cat] || 'Autres'; (groups[k] = groups[k] || []).push(a); });
-    Object.keys(groups).sort((x, y) => (x === 'Autres') - (y === 'Autres') || x.localeCompare(y, 'fr')).forEach(k => {
+    APPS.forEach(a => { const k = CATS[a.cat] || 'อื่น ๆ'; (groups[k] = groups[k] || []).push(a); });
+    Object.keys(groups).sort((x, y) => (x === 'อื่น ๆ') - (y === 'อื่น ๆ') || x.localeCompare(y, 'th')).forEach(k => {
       const card = el('div', 'cat gl', '<h4>' + esc(k) + '</h4>');
       const grid = el('div', 'grid');
       groups[k].forEach(a => grid.appendChild(itemEl({ t: 'a', p: a.pkg }, 'lib')));
@@ -275,7 +275,7 @@ function openApp(pkg, node) {
   hap('light');
   zoom(node, a);
   if (curFolder) setTimeout(() => closeFolder(), 300);
-  setTimeout(() => { call('launch', { pkg: pkg }).then(r => { if (!L) toast('Aperçu : ' + a.label); }); }, 150);
+  setTimeout(() => { call('launch', { pkg: pkg }).then(r => { if (!L) toast('ตัวอย่าง : ' + a.label); }); }, 150);
 }
 
 /* ---------- Dossiers ---------- */
@@ -285,7 +285,7 @@ function openFolder(fid) {
   curFolder = fid;
   const nm = $('#folderName');
   nm.value = f.n;
-  nm.onchange = () => { f.n = nm.value.trim() || 'Dossier'; save(); };
+  nm.onchange = () => { f.n = nm.value.trim() || 'โฟลเดอร์'; save(); };
   const g = $('#folderGrid');
   g.innerHTML = '';
   f.a.forEach(p => { if (APPMAP[p]) g.appendChild(itemEl({ t: 'a', p: p }, 'fold')); });
@@ -305,22 +305,22 @@ function showMenu(it, x, y) {
   const src = it.dataset.src, pkg = it.dataset.pkg, fid = it.dataset.fid;
   const o = [];
   if (pkg) {
-    o.push(['Infos de l’app', () => call('appInfo', { pkg: pkg })]);
+    o.push(['ข้อมูลแอป', () => call('appInfo', { pkg: pkg })]);
     if (src === 'dock') {
-      o.push(['Retirer du Dock', () => toHome(pkg)]);
+      o.push(['นำออกจาก Dock', () => toHome(pkg)]);
     } else if (S.hidden.includes(pkg)) {
-      o.push(['Ajouter à l’écran d’accueil', () => toHome(pkg)]);
+      o.push(['เพิ่มไปที่หน้าจอหลัก', () => toHome(pkg)]);
     } else {
-      o.push(['Ajouter au Dock', () => toDock(pkg)]);
-      if (src === 'fold') o.push(['Sortir du dossier', () => toHome(pkg)]);
-      if (src === 'home' || src === 'fold') o.push(['Retirer de l’écran d’accueil', () => hideApp(pkg)]);
+      o.push(['เพิ่มไปที่ Dock', () => toDock(pkg)]);
+      if (src === 'fold') o.push(['นำออกจากโฟลเดอร์', () => toHome(pkg)]);
+      if (src === 'home' || src === 'fold') o.push(['นำออกจากหน้าจอหลัก', () => hideApp(pkg)]);
     }
-    o.push(['Désinstaller', () => call('uninstall', { pkg: pkg }), true]);
+    o.push(['ถอนการติดตั้ง', () => call('uninstall', { pkg: pkg }), true]);
   } else if (fid) {
-    o.push(['Ouvrir', () => openFolder(fid)]);
-    o.push(['Dissoudre le dossier', () => dissolve(fid)]);
+    o.push(['เปิด', () => openFolder(fid)]);
+    o.push(['ยกเลิกโฟลเดอร์', () => dissolve(fid)]);
   }
-  if (src === 'home' || src === 'dock') o.push(['Modifier l’écran d’accueil', () => setEdit(true)]);
+  if (src === 'home' || src === 'dock') o.push(['แก้ไขหน้าจอหลัก', () => setEdit(true)]);
   const m = $('#menu');
   m.innerHTML = '';
   o.forEach(op => {
@@ -495,7 +495,7 @@ function mergeInto(did, tid) {
     t.a.push(d.p);
     Lh.splice(di, 1);
   } else {
-    Lh[ti] = { t: 'f', id: 'f' + Date.now().toString(36), n: 'Dossier', a: [t.p, d.p] };
+    Lh[ti] = { t: 'f', id: 'f' + Date.now().toString(36), n: 'โฟลเดอร์', a: [t.p, d.p] };
     Lh.splice(di, 1);
   }
   hap('heavy');
@@ -547,7 +547,7 @@ function spotDraw(q) {
     list = APPS.filter(a => norm(a.label).includes(n)).sort((a, b) => (norm(a.label).startsWith(n) ? 0 : 1) - (norm(b.label).startsWith(n) ? 0 : 1)).slice(0, 12);
   } else {
     list = APPS.slice(0, 5);
-    box.appendChild(el('div', 'srow hd', 'Suggestions'));
+    box.appendChild(el('div', 'srow hd', 'แนะนำ'));
   }
   list.forEach(a => {
     const r = el('div', 'srow', '<div class="ic"><img src="' + iconSrc(a) + '"></div><span>' + esc(a.label) + '</span>');
@@ -555,7 +555,7 @@ function spotDraw(q) {
     box.appendChild(r);
   });
   if (n) {
-    const w = el('div', 'srow', '<div class="ic web">🌐</div><span>Rechercher « ' + esc(q.trim()) + ' » sur le Web</span>');
+    const w = el('div', 'srow', '<div class="ic web">🌐</div><span>ค้นหา « ' + esc(q.trim()) + ' » บนเว็บ</span>');
     w.addEventListener('click', () => { closeSpot(); call('openUrl', { url: 'https://www.google.com/search?q=' + encodeURIComponent(q.trim()) }); });
     box.appendChild(w);
   }
@@ -708,9 +708,9 @@ async function getSegmenter(kind) {
         outputConfidenceMasks: false
       });
       return SEGS[kind];
-    } catch (e) { lastErr = e; console.warn('IA source échouée', s.lib, e); }
+    } catch (e) { lastErr = e; console.warn('แหล่ง IA ล้มเหลว', s.lib, e); }
   }
-  throw lastErr || new Error('IA indisponible');
+  throw lastErr || new Error('IA ไม่พร้อมใช้งาน');
 }
 async function runInteractive(c, nx, ny) {
   const seg = await getSegmenter('inter');
@@ -752,10 +752,10 @@ function buildCut(m, nx, ny) {
 }
 function shortErr(e) { return String(e && e.message ? e.message : e).slice(0, 90); }
 async function cutSubject(tx, ty) {
-  toast('Détourage en cours…', 20000);
+  toast('กำลังตัดภาพ…', 20000);
   try {
     const c = await getWallCanvas();
-    if (!c) { toast('Choisis d’abord un fond'); return; }
+    if (!c) { toast('เลือกวอลเปเปอร์ก่อน'); return; }
     const sw = innerWidth, sh = innerHeight;
     const k = Math.max(sw / c.width, sh / c.height);
     const dw = c.width * k, dh = c.height * k;
@@ -766,7 +766,7 @@ async function cutSubject(tx, ty) {
     const okRatio = r => r >= 0.012 && r <= 0.88;
     try {
       const m = await runInteractive(c, nx, ny);
-      if (!m) throw new Error('aucun masque');
+      if (!m) throw new Error('ไม่มีมาสก์');
       const b = buildCut(m, nx, ny);
       log.push('IA 1 : ' + Math.round(b.ratio * 100) + ' %');
       if (okRatio(b.ratio)) res = b;
@@ -774,13 +774,13 @@ async function cutSubject(tx, ty) {
     if (!res) {
       try {
         const m = await runSelfie(c);
-        if (!m) throw new Error('aucun masque');
+        if (!m) throw new Error('ไม่มีมาสก์');
         const b = buildCut(m, nx, ny);
         log.push('IA 2 : ' + Math.round(b.ratio * 100) + ' %');
         if (okRatio(b.ratio)) res = b;
       } catch (e) { log.push('IA 2 : ' + shortErr(e)); }
     }
-    if (!res) { toast('Sujet non isolé. Touche bien au centre du sujet. (' + log.join(' ; ') + ')', 10000); return; }
+    if (!res) { toast('ตัดวัตถุไม่สำเร็จ แตะให้ตรงกลางวัตถุ (' + log.join(' ; ') + ')', 10000); return; }
     const mc = document.createElement('canvas');
     mc.width = res.w; mc.height = res.h;
     const mx = mc.getContext('2d');
@@ -797,17 +797,17 @@ async function cutSubject(tx, ty) {
     const blob = await new Promise(r => oc.toBlob(r, 'image/png'));
     await idb.set('cut', blob);
     await loadWall();
-    toast('Sujet détouré ✔ (' + Math.round(res.ratio * 100) + ' % de l’image)', 4000);
+    toast('ตัดวัตถุสำเร็จ ✔ (' + Math.round(res.ratio * 100) + ' % ของภาพ)', 4000);
   } catch (e) {
     console.warn(e);
-    toast('Détourage impossible : ' + shortErr(e), 10000);
+    toast('ตัดภาพไม่ได้ : ' + shortErr(e), 10000);
   }
 }
 $('#fWall').addEventListener('change', async e => {
   const f = e.target.files && e.target.files[0];
   e.target.value = '';
   if (!f) return;
-  try { await setWallpaper(f); toast('Fond changé. Touche « Détourer » pour l’effet de profondeur.'); } catch (err) { toast('Image illisible'); }
+  try { await setWallpaper(f); toast('เปลี่ยนวอลเปเปอร์แล้ว แตะ "ตัดภาพ" เพื่อเอฟเฟกต์ความลึก'); } catch (err) { toast('อ่านรูปไม่ได้'); }
 });
 $('#fCut').addEventListener('change', async e => {
   const f = e.target.files && e.target.files[0];
@@ -815,7 +815,7 @@ $('#fCut').addEventListener('change', async e => {
   if (!f) return;
   await idb.set('cut', f);
   await loadWall();
-  toast('Détourage importé ✔');
+  toast('นำเข้าการตัดภาพแล้ว ✔');
 });
 
 /* ---------- Écran verrouillé ---------- */
@@ -847,7 +847,7 @@ function renderClock() {
   const h = pad(d.getHours()), m = pad(d.getMinutes());
   if (S.set.ckMode === 'line') { $('#ck1').textContent = h + ':' + m; $('#ck2').textContent = ''; }
   else { $('#ck1').textContent = h; $('#ck2').textContent = m; }
-  $('#lkDate').textContent = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+  $('#lkDate').textContent = d.toLocaleDateString('th-TH', { weekday: 'long', day: 'numeric', month: 'long' });
   fitClock();
 }
 function fitClock() {
@@ -871,8 +871,8 @@ function syncPanel() {
   $('#rW').value = Math.round(S.set.ckW * 100);
   $('#rH').value = S.set.ckH;
   $('#bDepth').classList.toggle('on', !!S.set.depth);
-  $('#bMode').textContent = S.set.ckMode === 'line' ? 'Style : ligne' : 'Style : pile';
-  $('#bDepth').textContent = S.set.depth ? 'Profondeur : oui' : 'Profondeur : non';
+  $('#bMode').textContent = S.set.ckMode === 'line' ? 'สไตล์ : บรรทัด' : 'สไตล์ : เรียงซ้อน';
+  $('#bDepth').textContent = S.set.depth ? 'ความลึก : เปิด' : 'ความลึก : ปิด';
 }
 function setLockEdit(on) {
   lock.classList.toggle('edit', on);
@@ -885,15 +885,15 @@ $('#bMode').addEventListener('click', () => { S.set.ckMode = S.set.ckMode === 'l
 $('#bDepth').addEventListener('click', () => { S.set.depth = !S.set.depth; applyWall(); syncPanel(); save(); });
 $('#bWall').addEventListener('click', () => $('#fWall').click());
 $('#bImp').addEventListener('click', () => $('#fCut').click());
-$('#bClr').addEventListener('click', async () => { await idb.del('cut'); await loadWall(); toast('Détourage retiré'); });
+$('#bClr').addEventListener('click', async () => { await idb.del('cut'); await loadWall(); toast('ลบการตัดภาพแล้ว'); });
 $('#bCut').addEventListener('click', () => {
-  if (!wallURL) { toast('Choisis d’abord un fond'); return; }
+  if (!wallURL) { toast('เลือกวอลเปเปอร์ก่อน'); return; }
   pickMode = true;
   lock.classList.add('pick');
 });
 $('#bDone').addEventListener('click', () => setLockEdit(false));
 $('#bTorch').addEventListener('click', () => {
-  call('toggleTorch').then(r => { if (r) $('#bTorch').classList.toggle('on', !!r.on); else toast('Lampe indisponible'); });
+  call('toggleTorch').then(r => { if (r) $('#bTorch').classList.toggle('on', !!r.on); else toast('ไฟฉายใช้ไม่ได้'); });
 });
 $('#bCam').addEventListener('click', () => call('openCamera'));
 
