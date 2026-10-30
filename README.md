@@ -1,11 +1,19 @@
-# Launcher iOS (Android / Capacitor)
+#Launcher iOS (Android / Capacitor)
 
-Launcher Android au style iOS : écran de verrouillage avec horloge haute et sujet devant l'horloge,
-grille d'icônes, dock, dossiers, Spotlight, bibliothèque d'apps, widgets, barre de statut moderne.
+An Android launcher with an iOS-style design. Features include a lock screen with a large clock and a cut-out subject in front of it, an app icon grid, a dock, folders, Spotlight search, an app library, widgets, and a modern status bar.
 
-L'APK est compilé par GitHub Actions à chaque push sur `main` et publié dans les **Releases**.
+The APK is built by GitHub Actions on every push to main and published under Releases.
 
-Lien direct de la dernière version :
-`https://github.com/davepaul1098-hue/launcher-ios/releases/latest/download/Launcher-iOS.apk`
+Direct link to the latest version: https://github.com/davepaul1098-hue/launcher-ios/releases/latest/download/Launcher-iOS.apk
 
-Après installation : Réglages Android > Applis par défaut > Appli d'accueil > Launcher iOS.
+After installing, go to Android Settings > Default apps > Home app > Launcher iOS.
+
+#Current status
+
+This is a Thai translation of the original French launcher. So far:
+
+The text in index.html and script.js has been translated to Thai.
+Dates are formatted with the th-TH locale.
+A new build has been run through GitHub Actions in the launcher-iosV2 fork.
+
+Next steps are to test the built APK on a phone and fix any French text that remains.
