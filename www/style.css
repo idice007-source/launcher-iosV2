@@ -12,8 +12,8 @@ button{font-family:inherit;cursor:pointer}
 /* Verre liquide (iOS 26) : fin, très réfléchissant, bord lumineux */
 .gl{
   background:linear-gradient(160deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.07) 45%,rgba(255,255,255,.12) 100%);
-  -webkit-backdrop-filter:blur(30px) saturate(190%) brightness(1.06);
-  backdrop-filter:blur(30px) saturate(190%) brightness(1.06);
+  -webkit-backdrop-filter:blur(16px) saturate(170%);
+  backdrop-filter:blur(16px) saturate(170%);
   border:1px solid rgba(255,255,255,.22);
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,.55),
@@ -37,9 +37,9 @@ button{font-family:inherit;cursor:pointer}
   width:var(--ic);height:var(--ic);
   border-radius:22.37%;
   overflow:hidden;position:relative;isolation:isolate;
-  box-shadow:0 6px 16px rgba(0,0,0,.28),0 1px 2px rgba(0,0,0,.2);
+  box-shadow:none;
   transition:transform .18s cubic-bezier(.2,.8,.2,1);
-  flex:none;background:transparent
+  flex:none;background:rgba(255,255,255,.05)
 }
 .ic:after{ /* reflet de verre sur l'icône */
   content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
@@ -54,13 +54,13 @@ button{font-family:inherit;cursor:pointer}
 .st-dark .ic img{filter:brightness(.6) saturate(.85)}
 .st-tint .ic{background:hsl(var(--hue) 55% 30%)}
 .st-tint .ic img{filter:grayscale(1) contrast(1.15) brightness(1.1);mix-blend-mode:luminosity}
-.st-clear .ic{background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);border:1px solid rgba(255,255,255,.35)}
+.st-clear .ic{background:rgba(255,255,255,.05);-webkit-backdrop-filter:none;backdrop-filter:none;border:1px solid rgba(255,255,255,.35)}
 .st-clear .ic img{filter:grayscale(1) brightness(2.2) contrast(.8);opacity:.9}
 
 /* Dossiers */
 .ic.fold{
-  background:rgba(255,255,255,.2);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);
+  background:rgba(255,255,255,.05);
+  -webkit-backdrop-filter:none;backdrop-filter:none;
   display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:7px;align-content:center;
   border:1px solid rgba(255,255,255,.25)
 }
@@ -115,14 +115,14 @@ button{font-family:inherit;cursor:pointer}
 .page.lib .item{padding-bottom:4px}
 
 /* Dossier ouvert */
-#folder{position:absolute;inset:0;z-index:15;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.3);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+#folder{position:absolute;inset:0;z-index:15;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.3);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 #folder.on{display:flex}
 #folderPanel{width:min(88vw,360px);border-radius:38px;padding:16px 14px 20px}
 #folderName{width:100%;background:none;border:0;color:#fff;text-align:center;font-size:20px;font-weight:600;outline:0;margin-bottom:8px;-webkit-user-select:text;user-select:text}
 #folderGrid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:98px;max-height:60vh;overflow:auto}
 
 /* Spotlight */
-#spot{position:absolute;inset:0;z-index:20;display:none;background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+#spot{position:absolute;inset:0;z-index:20;display:none;background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 #spot.on{display:block}
 #spotBox{padding:calc(var(--top) + 14px) 14px 14px}
 .spotbar{display:flex;align-items:center;gap:8px;border-radius:22px;padding:10px 14px}
