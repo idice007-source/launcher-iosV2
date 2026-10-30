@@ -273,7 +273,6 @@ function openApp(pkg, node) {
   const a = APPMAP[pkg];
   if (!a) return;
   hap('light');
-  zoom(node, a);
   if (curFolder) setTimeout(() => closeFolder(), 300);
   setTimeout(() => { call('launch', { pkg: pkg }).then(r => { if (!L) toast('ตัวอย่าง : ' + a.label); }); }, 150);
 }
